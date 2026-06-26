@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reach × Leverage — Prioritizing a Shared Data-Grid</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg:#F7FAFB; --ink:#0F1B22; --soft:#46545C; --muted:#7B8890;
+      --line:#E2EAEC; --line2:#CFDBDE;
+      --c:#0E7490; --c-deep:#0B5566; --tint:#E4F2F5;
+      --fd:"Fraunces",Georgia,serif; --fb:"Inter",system-ui,sans-serif; --fm:"Space Mono",monospace;
+      --gut:clamp(22px,5vw,80px); --maxw:880px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--ink);font-family:var(--fb);font-size:18px;line-height:1.65;-webkit-font-smoothing:antialiased}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
+    .mono{font-family:var(--fm);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--c)}
+    .back{display:inline-block;font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--c);text-decoration:none;padding:26px 0}
+    .back:hover{color:var(--c-deep)}
+
+    .hero{padding:10px 0 52px}
+    .hero .eye{display:flex;align-items:center;gap:14px;margin-bottom:30px}
+    .hero .eye .ln{width:46px;height:1px;background:var(--c)}
+    .hero h1{font-family:var(--fd);font-weight:400;font-size:clamp(40px,8vw,86px);line-height:1.0;letter-spacing:-.025em}
+    .hero h1 em{font-style:normal;color:var(--c)}
+    .hero .lede{margin-top:26px;font-size:clamp(18px,2.2vw,22px);color:var(--soft);max-width:60ch}
+    .povline{margin-top:18px;font-size:14px;color:var(--muted);font-style:italic}
+
+    .nums{display:grid;grid-template-columns:repeat(2,1fr);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:32px;background:#fff}
+    .nums .n{padding:22px 24px;border-bottom:1px solid var(--line)}
+    .nums .n:nth-child(odd){border-right:1px solid var(--line)}
+    .nums .big{font-family:var(--fd);font-weight:400;font-size:38px;line-height:1;letter-spacing:-.02em;color:var(--c-deep)}
+    .nums .cap{margin-top:8px;font-size:13px;color:var(--soft)}
+    @media(min-width:680px){
+      .nums{grid-template-columns:repeat(4,1fr)}
+      .nums .n{border-bottom:none}
+      .nums .n:nth-child(odd){border-right:none}
+      .nums .n+.n{border-left:1px solid var(--line)}
+    }
+
+    section{padding:clamp(38px,6vw,62px) 0;border-top:1px solid var(--line)}
+    .kick{font-family:var(--fm);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+    h2{font-family:var(--fd);font-weight:500;font-size:clamp(26px,4vw,38px);letter-spacing:-.02em;line-height:1.08;margin-bottom:20px}
+    p{margin-bottom:18px;color:var(--soft)}
+    p strong,li strong{color:var(--ink);font-weight:600}
+    .em{font-family:var(--fd);font-style:italic;color:var(--ink)}
+
+    .teams{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 22px}
+    .teams span{font-family:var(--fm);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--c-deep);background:var(--tint);border:1px solid var(--line2);border-radius:999px;padding:6px 13px}
+
+    .pull{font-family:var(--fd);font-weight:400;font-style:italic;font-size:clamp(21px,3.2vw,28px);line-height:1.32;color:var(--ink);border-left:3px solid var(--c);padding-left:24px;margin:6px 0 18px}
+
+    /* four-factor lens */
+    .lens{list-style:none;display:grid;gap:12px;margin:8px 0 6px}
+    .lens li{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+    .lens li b{font-family:var(--fd);font-weight:600;font-size:17px;color:var(--ink)}
+    .lens li span{display:block;margin-top:3px;font-size:14.5px;color:var(--soft)}
+    @media(min-width:640px){.lens{grid-template-columns:repeat(2,1fr)}}
+
+    /* numbered moves list */
+    .moves{list-style:none;counter-reset:m;display:grid;gap:14px;margin:8px 0}
+    .moves li{position:relative;padding-left:46px;color:var(--soft);font-size:16.5px;line-height:1.55}
+    .moves li::before{counter-increment:m;content:counter(m);position:absolute;left:0;top:-1px;width:30px;height:30px;border-radius:8px;background:var(--tint);color:var(--c-deep);font-family:var(--fm);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+    .moves li b{color:var(--ink);font-weight:600}
+
+    /* deprioritized list */
+    .deprio{list-style:none;display:grid;gap:10px;margin:10px 0 20px}
+    .deprio li{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px 18px}
+    .deprio li h4{font-family:var(--fd);font-weight:600;font-size:16.5px;color:var(--ink);margin-bottom:5px;letter-spacing:-.01em}
+    .deprio li .why{margin:0;font-size:14.5px;color:var(--soft);line-height:1.5}
+    .deprio li .why .val{color:var(--muted);font-style:italic}
+
+    /* compact before/after comparison */
+    .compare{margin:22px 0 6px}
+    .pair{display:grid;grid-template-columns:1fr;gap:12px}
+    .shot{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+    .shot img{display:block;width:100%;height:auto}
+    .shot .cap2{display:block;font-family:var(--fm);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:8px 12px;border-top:1px solid var(--line)}
+    .figcap{font-size:14.5px;color:var(--soft);margin:14px 0;line-height:1.55}
+    .figcap strong{color:var(--ink)}
+    .toggle{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;max-width:520px}
+    .toggle img{width:110px;height:auto;border:1px solid var(--line);border-radius:6px;flex:none}
+    .toggle .cap2{font-family:var(--fm);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);line-height:1.5}
+    @media(min-width:680px){.pair{grid-template-columns:1fr 1fr}}
+
+    .decision{background:#fff;border:1px solid var(--line);border-left:3px solid var(--c);border-radius:14px;padding:26px 28px;margin-bottom:18px}
+    .decision .tag{font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--c);margin-bottom:8px}
+    .decision h3{font-family:var(--fd);font-weight:600;font-size:clamp(20px,2.6vw,25px);letter-spacing:-.01em;color:var(--ink);line-height:1.14;margin-bottom:16px}
+    .decision .row{display:grid;grid-template-columns:1fr;gap:3px;padding:11px 0;border-top:1px dashed var(--line2)}
+    .decision .row .lbl{font-family:var(--fm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+    .decision .row p{margin:0;font-size:15.5px;color:var(--soft)}
+    .decision .row.verdict p{color:var(--ink);font-weight:500}
+    .decision .row.outcome{border-top:1px solid var(--line2);margin-top:4px;padding-top:14px}
+    .decision .row.outcome .lbl{color:var(--c)}
+    .decision .row.outcome p{color:var(--ink)}
+    @media(min-width:640px){.decision .row{grid-template-columns:130px 1fr;gap:20px;align-items:baseline}}
+
+    .endcap{padding:54px 0 90px;text-align:center;border-top:1px solid var(--line)}
+    .endcap a{font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--c);text-decoration:none;border:1px solid var(--c);border-radius:999px;padding:12px 22px}
+    .endcap a:hover{background:var(--c);color:#fff}
+    @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="../index.html">← Back to portfolio</a>
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="eye"><span class="ln"></span><span class="mono">PM Case Study · Platform Prioritization</span></div>
+      <h1>Reach <em>×</em> Leverage</h1>
+      <p class="lede">A shared data-grid component renders the tables inside six ServiceNow SPM products. On a release with limited capacity and a large defect backlog, this is how — working with the PMs of those six workspaces — we prioritized what the grid should ship, and why three high-leverage bets beat a pile of low-severity bugs.</p>
+      <p class="povline">Prioritized together with the PMs of all six consuming workspaces.</p>
+
+      <div class="nums">
+        <div class="n"><div class="big">6</div><div class="cap">products share one grid</div></div>
+        <div class="n"><div class="big">3</div><div class="cap">high-leverage bets won a slot</div></div>
+        <div class="n"><div class="big">~70%</div><div class="cap">capacity still clearing defects</div></div>
+        <div class="n"><div class="big">~25%</div><div class="cap">more rows per screen, same font size</div></div>
+      </div>
+    </header>
+
+    <!-- 01 WHAT THE GRID IS -->
+    <section>
+      <div class="kick">01 — What the grid is</div>
+      <h2>One component, six products.</h2>
+      <p>The data-grid is a <strong>shared UI component</strong> — the table that six SPM products render their data in:</p>
+      <div class="teams">
+        <span>Financials</span><span>Goals</span><span>Portfolio Planning</span><span>CWM</span><span>EAP</span><span>Resource Management</span>
+      </div>
+      <p>That shared nature changes the economics of every decision. Build a capability once and all six products get it instantly. Ship a regression once and all six inherit it. So the right question is never "does this one team want it?" — it's <strong>"how far does this multiply, and what does it cost everyone downstream?"</strong> That lens is what this case study is about.</p>
+    </section>
+
+    <!-- 02 THE PROBLEM -->
+    <section>
+      <div class="kick">02 — The prioritization problem</div>
+      <h2>A committed release, a deep backlog, limited capacity.</h2>
+      <p>Everything below shipped on one committed release train for the grid. Sitting underneath it was a large defect backlog — but a backlog that was mostly <strong>isolated, low-severity (P3), single-surface</strong> issues: real, worth fixing, but each one helping exactly one screen.</p>
+      <p>Roughly <strong>70% of capacity went to clearing those defects</strong> — that's the baseline job. The interesting decision was the other slice: on a shared component, which non-defect bets are worth displacing a stack of P3s? That's where a framework matters, so you're choosing on leverage rather than on whoever asked loudest.</p>
+    </section>
+
+    <!-- 03 THE LENS -->
+    <section>
+      <div class="kick">03 — The lens</div>
+      <h2>Four factors, one tie-breaker.</h2>
+      <p>We scored every candidate against four things:</p>
+      <ul class="lens">
+        <li><b>Reach</b><span>How many of the six consumers actually benefit.</span></li>
+        <li><b>Frequency</b><span>How often it touches the core user loop.</span></li>
+        <li><b>Leverage</b><span>Does it lower the cost of everything that comes after.</span></li>
+        <li><b>Commitment</b><span>Is it on the release train to a named consumer.</span></li>
+      </ul>
+      <p>On a shared component the tie-breaker is <strong>reach × leverage</strong>: a single change multiplies across every consumer, so a broad or cost-reducing item outranks a deep pile of narrow ones. That's why the three bets below each beat the P3 backlog they displaced.</p>
+    </section>
+
+    <!-- 04 THE BETS -->
+    <section>
+      <div class="kick">04 — The three bets</div>
+      <h2>What won a slot, and why.</h2>
+
+      <div class="decision">
+        <div class="tag">Bet 01 · P1 · committed</div>
+        <h3>Compact mode — density as information throughput.</h3>
+        <div class="row"><span class="lbl">Reach</span><p>Every dense planning workspace renders this same grid. Build density <strong>once</strong> and all of them get "more rows per screen" instantly — the highest-leverage shape a feature can take on a shared component.</p></div>
+        <div class="row"><span class="lbl">Core job</span><p>Planning and triage at scale is the primary task. Row density isn't cosmetic — it's how much a user can see and act on in one pass.</p></div>
+        <div class="row"><span class="lbl">The design call</span><p>Held font size <strong>constant</strong> and got density purely from spacing tokens, so readability and accessibility were never traded away. Two modes — compact and normal — not three. It persists as a user preference, gated behind a property each consumer controls.</p></div>
+        <div class="row verdict"><span class="lbl">Verdict</span><p>P1, committed, broad reach into the core loop → clears any pile of single-surface P3s.</p></div>
+        <div class="row outcome"><span class="lbl">Outcome</span><p>Because compact mode ships at the <strong>instance level</strong>, the capability lands across all six workspaces the moment the grid ships — no per-team work required. Whether to switch it on stays each consumer's call; the leverage is that the option exists everywhere by construction. The real-world payoff is largest where grids are longest and most-scanned — <strong>Resource Management</strong> and <strong>Financials</strong> first.</p></div>
+      </div>
+
+      <div class="compare">
+        <div class="pair">
+          <div class="shot"><img src="../assets/grid-normal.png" alt="The grid in normal density, 15 rows visible" /><span class="cap2">Normal · 15 rows</span></div>
+          <div class="shot"><img src="../assets/grid-compact.png" alt="The grid in compact density, 19 rows visible" /><span class="cap2">Compact · 19 rows</span></div>
+        </div>
+        <p class="figcap">Same table, same data, <strong>same font size</strong> — compact surfaces about four more rows per screen (~25%). The density came from spacing tokens, not shrinking the type, so readability held.</p>
+        <div class="toggle"><img src="../assets/grid-toggle.png" alt="Settings panel showing a Compact mode toggle" /><span class="cap2">Compact ships as a per-user toggle each consumer controls.</span></div>
+      </div>
+
+      <div class="decision">
+        <div class="tag">Bet 02 · P1 · multiple consumers</div>
+        <h3>Row highlight — fixing the most-used interaction.</h3>
+        <div class="row"><span class="lbl">The signal</span><p>Multiple defects from consuming teams reported the same thing: when a row's link opened the side panel, users lost track of <em>which</em> row they'd selected. A repeated, cross-team complaint — not a hypothesis.</p></div>
+        <div class="row"><span class="lbl">Frequency</span><p>It sits in the most-used interaction — click a row → open its record → act. Every session, every user.</p></div>
+        <div class="row"><span class="lbl">Quality adjacency</span><p>A highlight distinct from hover and full-selection also lowers the risk of editing the wrong record. Quality work in the shape of a feature.</p></div>
+        <div class="row"><span class="lbl">Semantic reach</span><p>Color-by-row also lets consumers encode meaning — parent vs. child vs. aggregate — in the hierarchical grids the suite relies on.</p></div>
+        <div class="row verdict"><span class="lbl">Verdict</span><p>A usability defect in the most-used interaction, raised by multiple consumers → outranks scattered cosmetic bugs.</p></div>
+      </div>
+
+      <div class="decision">
+        <div class="tag">Bet 03 · P3 on paper, pulled in anyway</div>
+        <h3>Adopt the shared column config — the invisible bet.</h3>
+        <div class="row"><span class="lbl">Cost of delay</span><p>Consuming the shared column-configuration component means every future column feature lands <strong>once</strong>, instead of being rebuilt in the grid's own fork. Defer it and every later story gets more expensive — debt that compounds.</p></div>
+        <div class="row"><span class="lbl">Invisible by design</span><p>The acceptance criterion was literally "the user experience should remain." Zero user-facing risk, pure platform payoff — the safest kind of investment.</p></div>
+        <div class="row"><span class="lbl">Timing</span><p>Done alongside the column work, so the multi-consumer regression set is tested once, not twice.</p></div>
+        <div class="row verdict"><span class="lbl">Verdict</span><p>You don't prioritize tech debt for its own sake — you prioritize it when deferring it taxes the roadmap. This one was an unblocker.</p></div>
+      </div>
+    </section>
+
+    <!-- 05 DEPRIORITIZED -->
+    <section>
+      <div class="kick">05 — What didn't make the cut</div>
+      <h2>The "no" pile — and why.</h2>
+      <p>Saying yes to those three meant saying no to a lot of reasonable requests. Each of these was real value; each lost to something with more reach or less risk:</p>
+      <ul class="deprio">
+        <li><h4>Saved view presets per user</h4><p class="why"><span class="val">Remembers column order and filters per layout.</span> Overlapped with consumer-owned config — deferred until the shared column-config foundation landed, rather than duplicate platform work.</p></li>
+        <li><h4>Dark-theme polish on pinned-column borders</h4><p class="why"><span class="val">Visual consistency in one theme.</span> Single-surface and cosmetic, P3 / Won't-Fix tier — no impact on the core loop.</p></li>
+        <li><h4>Drag-to-reorder animation smoothing</h4><p class="why"><span class="val">A nicer feel on row and column reorder.</span> Pure polish; the existing behavior was already functional and accessible.</p></li>
+        <li><h4>In-cell rich-text / markdown rendering</h4><p class="why"><span class="val">Richer content in description cells.</span> Niche to a few consumers, and it added rendering and performance risk against virtualization — limited reach for the cost.</p></li>
+        <li><h4>Configurable empty-state illustrations</h4><p class="why"><span class="val">Per-consumer branding flexibility.</span> Aesthetic; the default empty state already covered the functional need.</p></li>
+        <li><h4>Bulk inline-edit (multi-row paste)</h4><p class="why"><span class="val">Power-user efficiency for data entry.</span> High complexity plus multi-tenant edit-payload risk, with value concentrated in a single workflow.</p></li>
+        <li><h4>Column-level keyboard shortcut hints</h4><p class="why"><span class="val">Discoverability of grid actions.</span> Marginal once core keyboard navigation — the accessibility wave — was already solid.</p></li>
+      </ul>
+      <p><strong>The principle:</strong> each of these was real value, but each was either narrow in reach (one surface or one workflow), redundant with platform- or consumer-owned capability, or high-risk for low-frequency use. They were parked behind the items that touched every consumer's core loop — and revisited as capacity and the platform foundation allowed.</p>
+    </section>
+
+    <!-- 06 THE CALL -->
+    <section>
+      <div class="kick">06 — The call, in one line</div>
+      <h2>Selective, on top of the baseline.</h2>
+      <p class="pull">Compact mode and row highlight won on reach into the core loop; the tech debt won on leverage — it made everything downstream cheaper. The rest of the backlog stayed deferred because each item was narrow and low-severity.</p>
+      <p>This is selective, high-leverage prioritization layered on top of the ~70% still spent clearing defects — <strong>not instead of it</strong>. Knowing which 30% to defend is the part that's product judgment.</p>
+    </section>
+
+    <!-- 07 IF I OWNED IT -->
+    <section>
+      <div class="kick">07 — If I owned it as a PM</div>
+      <h2>Treat the grid like a product, not a library.</h2>
+      <ul class="moves">
+        <li><b>Instrument configuration usage</b> so data — not the loudest team — drives the roadmap.</li>
+        <li><b>Push toward self-serve configuration</b> so teams onboard without engineering hand-holding.</li>
+        <li><b>Give the grid its own changelog, deprecation policy, and consumer expectations</b> — six teams depending on you means you owe them the predictability of a platform.</li>
+      </ul>
+    </section>
+
+    <div class="endcap">
+      <a href="../index.html">← Back to portfolio</a>
+    </div>
+  </div>
+</body>
+</html>
